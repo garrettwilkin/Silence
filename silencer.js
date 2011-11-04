@@ -12,7 +12,8 @@ exports.silencer = silencer;
 
 silencer.prototype.startStream = function() {
     var self = this;
-    var process = spawn('sox', [self.file, ['-t', 'dat', '-c', '1']]);
+    console.log(self.file);
+    var process = spawn('sox', [self.file, ['-c', '1', '-t', 'dat', '-']]);
     process.stdout.on('data',function(data) {
         console.log(data);
         console.log('===');

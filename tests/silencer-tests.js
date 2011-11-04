@@ -7,7 +7,7 @@ var suite = vows.describe('silencer')
     'Silencer': {                                  //Context
         'open file':{                              //SubContext
             topic: function () {                   //Topic
-                var silo = new silencer('test1','../moog.wav');
+                var silo = new silencer('test1','../randommoog.wav');
                 silo.startStream();
                 return silo;
             },
