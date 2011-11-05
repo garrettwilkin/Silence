@@ -1,21 +1,26 @@
 var vows = require('vows');
     assert = require('assert');
     silencer = require('../silencer.js').silencer;
+    fs = require ('fs');
+
+var silo = {
+    scan: function (file,ev) {
+        return function () {
+            var silence = new silencer(file,file);
+            silence.startStream();
+            silence.once(ev, this.callback);
+        }
+    }
+}
 
 var suite = vows.describe('silencer')
 .addBatch({                                        //Batch
     'Silencer': {                                  //Context
-        'open file':{                              //SubContext
-            topic: function () {                   //Topic
-                var silo = new silencer('test1','../randommoog.wav');
-                silo.startStream();
-                return silo;
-            },
-            'Returns stream object': function(error,stream) { //Vow
-                assert.isNull(error);
-                assert.isNotNull(stream);
-                assert.isObject(stream);
-                assert.instanceOf(stream,silencer);
+        'macro': {
+            topic: silo.scan('randommoog.wav','amplitude'),
+            'amplitude': function (timestamp, value) {
+                console.log(timestamp);
+                console.log(value);
             }
         }
     }
