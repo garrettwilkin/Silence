@@ -12,9 +12,39 @@ function silencer(label,file) {
 util.inherits(silencer,EventEmitter);
 exports.silencer = silencer;
 
+eliminate = function (results) {
+    var len = results.length;
+    var time = null;
+    var amp = null;
+    
+    while (time == null & len > 0) {
+        el = results.shift();
+        if (el != '') {
+            time = el;
+        };
+        len = results.length;
+    };
+    while (amp == null & len > 0) {
+        el = results.shift();
+        if (el != '') {
+            amp = el;
+        };
+        len = results.length;
+    };
+    
+    return {time:time, amp:amp};
+};
+
 silencer.prototype.onLine = function(line) {
     line = line.replace(/[\r\n]/gmi, '');
-    console.log(line);
+    var result = line.split(' ');
+    //skip comments
+    if (result[0] != ';') {
+        var extract = eliminate(result);
+        var time = extract.time;
+        var amp = extract.amp;
+        console.log('time: ' + time + ' amp: ' + amp );
+    };
 };
 
 silencer.prototype.onData = function(data) {
