@@ -1,6 +1,6 @@
-var silencer = require('../silencer.js').silencer;
+var Silencer = require('../silencer.js').Silencer;
+var Waiter = require('../waiter.js').Waiter;
 var util  = require('util'),
-    spawn = require('child_process').spawn,
+    spawn = require('child_process').spawn;
 
-silo = new silencer('demo','randommoog.wav');
-silo.startStream();
+var walt = new Waiter('choppedFolk','test.wav');
